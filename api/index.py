@@ -169,13 +169,4 @@ def test_packages():
         return jsonify({
             "success": False,
             "error": str(e)
-        }), 500
-
-if __name__ == '__main__':
-    print("Starting Python backend server...")
-    print("Available endpoints:")
-    print("  GET  /health - Health check")
-    print("  GET  /test-packages - Test package availability")
-    print("  POST /generate-plot - Generate plot from data")
-    
-    app.run(debug=True, host='0.0.0.0', port=5001) 
+        }), 500 

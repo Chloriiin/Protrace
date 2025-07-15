@@ -108,7 +108,7 @@ export default function PlotGeneration({ samples, uploadedFile, onBack }: PlotGe
       console.log('File:', uploadedFile.name, 'Size:', uploadedFile.size, 'bytes');
       
       // Call the Python backend API
-      const response = await fetch('http://localhost:5001/generate-plot', {
+      const response = await fetch('/api/generate-plot', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
