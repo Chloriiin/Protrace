@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { Sample } from './SampleForm';
 import { ArrowLeft } from 'lucide-react';
+import { useRef } from 'react';
 
 interface PlotGenerationProps {
   samples: Sample[];
@@ -38,6 +39,7 @@ export default function PlotGeneration({ samples, uploadedFile, onBack }: PlotGe
   const [plotImageUrl, setPlotImageUrl] = useState<string | null>(null);
   const [isGenerating, setIsGenerating] = useState(false);
   const [pyScriptReady, setPyScriptReady] = useState(false);
+  const [exportingFormat, setExportingFormat] = useState<string | null>(null);
 
     useEffect(() => {
     // Check if Python backend is available
@@ -108,7 +110,7 @@ export default function PlotGeneration({ samples, uploadedFile, onBack }: PlotGe
       console.log('File:', uploadedFile.name, 'Size:', uploadedFile.size, 'bytes');
       
       // Call the Python backend API
-      const response = await fetch('/api/generate-plot', {
+      const response = await fetch('http://localhost:5001/generate-plot', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -141,25 +143,108 @@ export default function PlotGeneration({ samples, uploadedFile, onBack }: PlotGe
     }
   };
 
+  const downloadPlot = async (format: string) => {
+    if (!uploadedFile || samples.length === 0 || !settings.title.trim() || !settings.subtitle.trim() || !settings.yLabel.trim()) {
+      alert('Please ensure you have uploaded a file, selected samples, and filled in all plot settings.');
+      return;
+    }
+    setExportingFormat(format);
+    try {
+      // Convert file to base64
+      const fileBase64 = await new Promise<string>((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => {
+          const result = reader.result as string;
+          const base64Data = result.split(',')[1];
+          resolve(base64Data);
+        };
+        reader.onerror = reject;
+        reader.readAsDataURL(uploadedFile);
+      });
+      const samplesConfig = samples.map(sample => ({
+        sampleName: sample.sampleName,
+        backgroundWell: sample.backgroundWell,
+        sampleWells: sample.sampleWells
+      }));
+      // Call backend for export
+      const response = await fetch('http://localhost:5001/generate-plot', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          fileData: fileBase64,
+          samplesConfig: samplesConfig,
+          plotSettings: settings,
+          exportFormat: format
+        })
+      });
+      const result = await response.json();
+      if (result.success && result.imageUrl) {
+        // Download the image in the correct format
+        const link = document.createElement('a');
+        link.href = result.imageUrl;
+        link.download = `protrace_plot.${format === 'jpg' ? 'jpg' : format}`;
+        link.click();
+      } else {
+        alert(result.error || `Failed to export plot as ${format.toUpperCase()}`);
+      }
+    } catch (error) {
+      alert(`Error exporting plot as ${format.toUpperCase()}`);
+    } finally {
+      setExportingFormat(null);
+    }
+  };
+
   const isFormValid = settings.title.trim() && settings.subtitle.trim() && settings.yLabel.trim() && settings.width > 0;
 
   return (
     <div className="max-w-4xl mx-auto p-6">
       <div className="mb-6">
-        <button
-          onClick={onBack}
-          className="flex items-center gap-2 text-gray-600 hover:text-gray-800 mb-4"
-        >
-          <ArrowLeft size={16} />
-          Back to Sample Selection
-        </button>
         <h1 className="text-2xl font-bold text-gray-800 mb-2">Plot Generation</h1>
         <p className="text-gray-600">
           Configure your plot settings and generate the visualization for your {samples.length} samples.
         </p>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+      {/* Change layout from grid to flex-col for vertical stacking */}
+      <div className="flex flex-col gap-8">
+        {/* Plot Display - move to top */}
+        <div className="bg-white rounded-lg border border-gray-200 p-6">
+          <h2 className="text-lg font-semibold text-gray-800 mb-4">Generated Plot</h2>
+          <div className="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center min-h-[400px] flex items-center justify-center">
+            {plotImageUrl ? (
+              <img 
+                src={plotImageUrl} 
+                alt="Generated plot"
+                className="max-w-full max-h-full object-contain"
+              />
+            ) : (
+              <div className="text-gray-500">
+                <div className="text-4xl mb-2">📊</div>
+                <p>Configure settings and click "Generate Plot" to see your visualization</p>
+              </div>
+            )}
+          </div>
+          {/* Export Button and Format Dropdown */}
+          {plotImageUrl && (
+            <div className="mt-6 flex flex-col items-center">
+              <label className="mb-2 text-sm font-medium text-gray-700">Export Plot As:</label>
+              <div className="flex gap-3">
+                {['png', 'svg', 'pdf', 'jpg'].map((fmt) => (
+                  <button
+                    key={fmt}
+                    className={`px-4 py-2 rounded-md font-medium ${exportingFormat === fmt ? 'bg-blue-300 text-white' : 'bg-blue-600 hover:bg-blue-700 text-white'}`}
+                    onClick={() => downloadPlot(fmt)}
+                    disabled={!!exportingFormat}
+                  >
+                    {exportingFormat === fmt ? 'Exporting...' : fmt.toUpperCase()}
+                  </button>
+                ))}
+              </div>
+              <p className="text-xs text-gray-500 mt-2">Choose a format to export your plot.</p>
+            </div>
+          )}
+        </div>
+
         {/* Settings Panel */}
         <div className="space-y-6">
           <div className="bg-white rounded-lg border border-gray-200 p-6">
@@ -272,27 +357,6 @@ export default function PlotGeneration({ samples, uploadedFile, onBack }: PlotGe
               ))}
             </div>
           </div>
-        </div>
-
-        {/* Plot Display */}
-        <div className="bg-white rounded-lg border border-gray-200 p-6">
-          <h2 className="text-lg font-semibold text-gray-800 mb-4">Generated Plot</h2>
-          <div className="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center min-h-[400px] flex items-center justify-center">
-            {plotImageUrl ? (
-              <img 
-                src={plotImageUrl} 
-                alt="Generated plot"
-                className="max-w-full max-h-full object-contain"
-              />
-            ) : (
-              <div className="text-gray-500">
-                <div className="text-4xl mb-2">📊</div>
-                <p>Configure settings and click "Generate Plot" to see your visualization</p>
-              </div>
-            )}
-          </div>
-          
-
         </div>
       </div>
     </div>

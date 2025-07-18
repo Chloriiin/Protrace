@@ -79,6 +79,8 @@ export default function SampleSelection({ onContinue }: SampleSelectionProps) {
     
     // Clear the entire plate after adding sample
     setSelectedWells([]);
+    // Reset the selection mode to background for the next sample
+    setSelectionMode('background');
   }, []);
 
   const handleClearSelection = useCallback(() => {
@@ -238,68 +240,6 @@ export default function SampleSelection({ onContinue }: SampleSelectionProps) {
         onModeChange={setSelectionMode}
       />
 
-      {/* Import/Export Section */}
-      <div className="flex justify-center">
-        <div className="bg-white border rounded-lg p-4 shadow-sm">
-          <h4 className="text-sm font-medium text-gray-900 mb-3 text-center">Sample Configuration</h4>
-          <div className="flex gap-3">
-            <button
-              onClick={handleImportClick}
-              disabled={isImporting}
-              className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-blue-600 bg-blue-50 border border-blue-200 rounded-md hover:bg-blue-100 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-            >
-              <Upload className="w-4 h-4" />
-              {isImporting ? 'Importing...' : 'Import Samples'}
-            </button>
-            
-            <button
-              onClick={handleExportSamples}
-              disabled={samples.length === 0}
-              className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-green-600 bg-green-50 border border-green-200 rounded-md hover:bg-green-100 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-              title={samples.length === 0 ? 'No samples to export' : `Export ${samples.length} sample(s)`}
-            >
-              <Download className="w-4 h-4" />
-              Save & Export
-            </button>
-          </div>
-          
-          {/* Hidden file input for import */}
-          <input
-            ref={fileInputRef}
-            type="file"
-            accept=".json"
-            onChange={handleFileImport}
-            className="hidden"
-          />
-          
-          {/* Import Success Display */}
-          {importSuccess && (
-            <div className="mt-3 p-2 bg-green-50 border border-green-200 rounded-md">
-              <div className="flex items-start gap-2">
-                <svg className="w-4 h-4 text-green-600 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                </svg>
-                <div className="text-sm text-green-700">
-                  {importSuccess}
-                </div>
-              </div>
-            </div>
-          )}
-          
-          {/* Import Error Display */}
-          {importError && (
-            <div className="mt-3 p-2 bg-red-50 border border-red-200 rounded-md">
-              <div className="flex items-start gap-2">
-                <AlertCircle className="w-4 h-4 text-red-600 mt-0.5 flex-shrink-0" />
-                <div className="text-sm text-red-700">
-                  <strong>Import failed:</strong> {importError}
-                </div>
-              </div>
-            </div>
-          )}
-        </div>
-      </div>
-
       {/* Well Plate */}
       <WellPlate
         selectedWells={selectedWells}
@@ -319,13 +259,75 @@ export default function SampleSelection({ onContinue }: SampleSelectionProps) {
           onClearSelection={handleClearSelection}
         />
         
-        <SamplesTable
-          samples={samples}
-          onUpdateSample={handleUpdateSample}
-          onDeleteSample={handleDeleteSample}
-          onReorderSamples={handleReorderSamples}
-          onHoverSample={handleHoverSample}
-        />
+        <div className="space-y-4">
+          {/* Import/Export Section */}
+          <div className="bg-white border rounded-lg p-4 shadow-sm">
+            <h4 className="text-sm font-medium text-gray-900 mb-3 text-center">Sample Configuration</h4>
+            <div className="flex justify-center gap-3">
+              <button
+                onClick={handleImportClick}
+                disabled={isImporting}
+                className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-blue-600 bg-blue-50 border border-blue-200 rounded-md hover:bg-blue-100 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+              >
+                <Upload className="w-4 h-4" />
+                {isImporting ? 'Importing...' : 'Import Samples'}
+              </button>
+              
+              <button
+                onClick={handleExportSamples}
+                disabled={samples.length === 0}
+                className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-green-600 bg-green-50 border border-green-200 rounded-md hover:bg-green-100 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                title={samples.length === 0 ? 'No samples to export' : `Export ${samples.length} sample(s)`}
+              >
+                <Download className="w-4 h-4" />
+                Save & Export
+              </button>
+            </div>
+            
+            {/* Hidden file input for import */}
+            <input
+              ref={fileInputRef}
+              type="file"
+              accept=".json"
+              onChange={handleFileImport}
+              className="hidden"
+            />
+            
+            {/* Import Success Display */}
+            {importSuccess && (
+              <div className="mt-3 p-2 bg-green-50 border border-green-200 rounded-md">
+                <div className="flex items-start gap-2">
+                  <svg className="w-4 h-4 text-green-600 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                  </svg>
+                  <div className="text-sm text-green-700">
+                    {importSuccess}
+                  </div>
+                </div>
+              </div>
+            )}
+            
+            {/* Import Error Display */}
+            {importError && (
+              <div className="mt-3 p-2 bg-red-50 border border-red-200 rounded-md">
+                <div className="flex items-start gap-2">
+                  <AlertCircle className="w-4 h-4 text-red-600 mt-0.5 flex-shrink-0" />
+                  <div className="text-sm text-red-700">
+                    <strong>Import failed:</strong> {importError}
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+          
+          <SamplesTable
+            samples={samples}
+            onUpdateSample={handleUpdateSample}
+            onDeleteSample={handleDeleteSample}
+            onReorderSamples={handleReorderSamples}
+            onHoverSample={handleHoverSample}
+          />
+        </div>
       </div>
 
       {/* Continue Button */}

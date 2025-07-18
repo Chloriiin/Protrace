@@ -2,8 +2,9 @@
 const nextConfig = {
   output: 'export',
   trailingSlash: true,
-  basePath: process.env.NODE_ENV === 'production' ? '/protrace' : '',
-  assetPrefix: process.env.NODE_ENV === 'production' ? '/protrace' : '',
+  // basePath and assetPrefix are only needed for web deployment, not for Tauri/desktop
+  // basePath: process.env.NODE_ENV === 'production' ? '/protrace' : '',
+  // assetPrefix: process.env.NODE_ENV === 'production' ? '/protrace' : '',
   images: {
     unoptimized: true
   }
