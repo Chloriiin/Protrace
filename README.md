@@ -8,13 +8,14 @@
 
 ### 🚀 Ready to use? Download the latest version!
 
-| Platform | Download Link | File Size |
-|----------|---------------|-----------|
-| **macOS** (Apple Silicon) | [📦 Download DMG](https://github.com/Chloriiin/Protrace/releases/latest/download/protrace_0.1.0_aarch64.dmg) | ~100 MB |
-| **macOS** (Intel) | [📦 Download DMG](https://github.com/Chloriiin/Protrace/releases/latest/download/protrace_0.1.0_x64.dmg) | ~100 MB |
-| **Windows** (64-bit) | [📦 Download Installer](https://github.com/Chloriiin/Protrace/releases/latest/download/protrace_0.1.0_x64-setup.exe) | ~100 MB |
+| Platform | Status | Download |
+|----------|--------|----------|
+| **macOS** (Universal) | ✅ Available | [📦 Download DMG](https://github.com/Chloriiin/Protrace/releases) |
+| **Windows** (64-bit) | � Coming Soon | Check [releases page](https://github.com/Chloriiin/Protrace/releases) |
 
-[🔗 **View All Releases**](https://github.com/Chloriiin/Protrace/releases) | [📋 **Release Notes**](https://github.com/Chloriiin/Protrace/releases/latest)
+> **Note**: Currently only macOS Universal build is available. Windows support is in development.
+
+[🔗 **View All Releases**](https://github.com/Chloriiin/Protrace/releases) | [� **Documentation**](#-quick-start-for-end-users)
 
 </div>
 
@@ -42,10 +43,10 @@ Perfect for researchers working with:
 ## 🚀 Quick Start (For End Users)
 
 ### Download and Install
-1. **Easy Download**: Use the [📥 Download section](#-download) above to get the latest version for your platform
-2. **macOS**: Open the downloaded DMG file and drag Protrace to your Applications folder
-3. **Windows**: Run the downloaded installer and follow the setup wizard
-4. Launch Protrace from your Applications folder or Start menu
+1. **Download**: Visit the [📥 Download section](#-download) above or go to [GitHub Releases](https://github.com/Chloriiin/Protrace/releases)
+2. **macOS**: Download the latest DMG file, open it, and drag Protrace to your Applications folder
+3. **Windows**: Windows builds coming soon - check the releases page for updates
+4. Launch Protrace from your Applications folder
 
 ### Using the App
 1. **Upload Data**: Click "Choose File" and select your Excel file (header should be on row 31)
@@ -326,7 +327,10 @@ If you encounter any issues or need help:
 
 ## 🔮 Roadmap
 
-- [ ] Windows build automation
+- [x] macOS desktop application (Universal build)
+- [x] Export functionality fix for desktop environment
+- [ ] **Windows build automation and release**
+- [ ] GitHub Actions for automated builds and releases
 - [ ] Auto-updater integration
 - [ ] Additional plot types and customization options
 - [ ] Batch processing capabilities
