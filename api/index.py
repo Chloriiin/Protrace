@@ -11,13 +11,30 @@ import json
 import sys
 import os
 
-# Add the src directory to the path
-sys.path.append(os.path.join(os.path.dirname(__file__), '..', 'src'))
+# Add the src directory to the path for both development and PyInstaller
+if hasattr(sys, '_MEIPASS'):
+    # PyInstaller bundle
+    src_path = os.path.join(sys._MEIPASS, 'src')
+else:
+    # Development
+    src_path = os.path.join(os.path.dirname(__file__), '..', 'src')
+
+sys.path.insert(0, src_path)
 
 # Import our plotting modules
-from Sample import Sample
-from Preprocessing import pre_process_df
-from ProtPlotting import plot_stdized_samples
+try:
+    from Sample import Sample
+    from Preprocessing import pre_process_df
+    from ProtPlotting import plot_stdized_samples
+    print("Successfully imported plotting modules")
+except ImportError as e:
+    print(f"Failed to import modules: {e}")
+    print(f"Python path: {sys.path}")
+    print(f"Current directory: {os.getcwd()}")
+    print(f"Files in current directory: {os.listdir('.')}")
+    if os.path.exists('src'):
+        print(f"Files in src directory: {os.listdir('src')}")
+    raise
 
 app = Flask(__name__)
 CORS(app)  # Enable CORS for all routes
@@ -41,6 +58,9 @@ def generate_plot():
         file_data_b64 = data.get('fileData')
         samples_config = data.get('samplesConfig')
         plot_settings = data.get('plotSettings')
+        export_format = data.get('exportFormat', 'png').lower()
+        if export_format not in ['png', 'svg', 'pdf', 'jpg', 'jpeg']:
+            export_format = 'png'
         
         if not all([file_data_b64, samples_config, plot_settings]):
             return jsonify({"error": "Missing required data"}), 400
@@ -109,12 +129,20 @@ def generate_plot():
         
         # Save plot to bytes
         buf = io.BytesIO()
-        plt.savefig(buf, format='png', dpi=150, bbox_inches='tight')
+        plt.savefig(buf, format=export_format, dpi=150, bbox_inches='tight')
         buf.seek(0)
         
         # Convert to base64 for response
+        if export_format == 'svg':
+            mime = 'image/svg+xml'
+        elif export_format == 'pdf':
+            mime = 'application/pdf'
+        elif export_format in ['jpg', 'jpeg']:
+            mime = 'image/jpeg'
+        else:
+            mime = 'image/png'
         img_data = base64.b64encode(buf.read()).decode('utf-8')
-        img_url = f"data:image/png;base64,{img_data}"
+        img_url = f"data:{mime};base64,{img_data}"
         
         plt.close()  # Clean up
         
@@ -123,7 +151,7 @@ def generate_plot():
         return jsonify({
             "success": True,
             "imageUrl": img_url,
-            "message": "Plot generated successfully"
+            "message": f"Plot generated successfully as {export_format.upper()}"
         })
         
     except Exception as e:
@@ -169,4 +197,13 @@ def test_packages():
         return jsonify({
             "success": False,
             "error": str(e)
-        }), 500 
+        }), 500
+
+if __name__ == '__main__':
+    print("Starting Python backend server...")
+    print("Available endpoints:")
+    print("  GET  /health - Health check")
+    print("  GET  /test-packages - Test package availability")
+    print("  POST /generate-plot - Generate plot from data")
+    
+    app.run(debug=True, host='0.0.0.0', port=5001) 
