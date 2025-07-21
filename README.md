@@ -1,7 +1,22 @@
 # Pr## 📥 Download
 
+<div ## 📥 Download
+
 <div align="center">
 
+### 🚀 Ready to use? Get the latest version!
+
+| Platform | Status | Download |
+|----------|--------|----------|
+| **macOS** (Apple Silicon) | ✅ **Available** | [📦 Download DMG](https://github.com/Chloriiin/Protrace/releases/latest/download/Protrace-v0.1.0-macOS-Apple-Silicon.dmg) |
+| **macOS** (Intel) | 🔄 **On request** | [Contact for build](#-support) |
+| **Windows** (64-bit) | 🚧 **In development** | Coming soon |
+
+> **Note**: The first official release (v0.1.0) is now available! Optimized for Apple Silicon Macs (M1/M2/M3).
+
+[🔗 **View All Releases**](https://github.com/Chloriiin/Protrace/releases) | [📋 **Release Notes**](https://github.com/Chloriiin/Protrace/releases/latest) | [📚 **Documentation**](#-quick-start-for-end-users)
+
+</div>
 ### 🚀 Ready to use? Get the latest version!
 
 **Current Status**: Initial release is being prepared. Download options will be available soon!
@@ -63,18 +78,11 @@ Perfect for researchers working with:
 
 ## 🚀 Quick Start (For End Users)
 
-### Getting the App
-**Option 1: Wait for Official Release** (Recommended for most users)
-- ⭐ **Star this repository** to get notified when the first release is available
-- 📧 **Watch releases** to be notified immediately when binaries are ready
-
-**Option 2: Request Early Access**
-- Create an [Issue](../../issues) requesting access for your platform (macOS Intel/Apple Silicon)
-- We'll provide you with a download link for testing
-
-**Option 3: Build from Source** (For developers)
-- Follow the [🛠️ Development Setup](#-development-setup-for-developers) section below
-- Requires Node.js, Rust, and Python development environment
+### Download and Install
+1. **Download**: Click the [📦 Download DMG](https://github.com/Chloriiin/Protrace/releases/latest/download/Protrace-v0.1.0-macOS-Apple-Silicon.dmg) link above
+2. **macOS**: Open the downloaded DMG file and drag Protrace to your Applications folder
+3. **Launch**: Open Protrace from your Applications folder (may need to right-click → Open first time due to security)
+4. **Enjoy**: Start analyzing your biology data offline!
 
 ### Using the App
 1. **Upload Data**: Click "Choose File" and select your Excel file (header should be on row 31)
@@ -386,7 +394,7 @@ If you encounter any issues or need help:
 - [x] macOS desktop application (Apple Silicon build)
 - [x] Export functionality fix for desktop environment (plots + sample configs)
 - [x] Updated window title with version branding
-- [ ] **🎯 First official release (v0.1.0)**
+- [x] **✅ First official release (v0.1.0) - RELEASED!**
 - [ ] Windows build automation and release
 - [ ] Intel Mac builds for older hardware
 - [ ] GitHub Actions for automated builds and releases
