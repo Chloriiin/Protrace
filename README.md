@@ -1,4 +1,20 @@
-# Protrace - Biology Data Visualization Desktop App
+# Pr## 📥 Download
+
+<div align="center">
+
+### 🚀 Ready to use? Download the latest version!
+
+| Platform | Status | Download |
+|----------|--------|----------|
+| **macOS** (Apple Silicon) | ✅ Available | [📦 Download DMG](https://github.com/Chloriiin/Protrace/releases) |
+| **macOS** (Intel) | 🚧 Available on request | Check [releases page](https://github.com/Chloriiin/Protrace/releases) |
+| **Windows** (64-bit) | 🚧 Coming Soon | Check [releases page](https://github.com/Chloriiin/Protrace/releases) |
+
+> **Note**: Currently optimized for Apple Silicon Macs. Intel Mac and Windows builds available on request.
+
+[🔗 **View All Releases**](https://github.com/Chloriiin/Protrace/releases) | [📚 **Documentation**](#-quick-start-for-end-users)
+
+</div> Data Visualization Desktop App
 
 **Protrace** is a powerful desktop application for visualizing and analyzing biology experiment data. Built with Next.js, Python, and Tauri, it provides an intuitive interface for processing Excel data files and generating publication-ready plots completely offline.
 
