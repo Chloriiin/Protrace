@@ -2,17 +2,22 @@
 
 <div align="center">
 
-### 🚀 Ready to use? Download the latest version!
+### 🚀 Ready to use? Get the latest version!
 
-| Platform | Status | Download |
-|----------|--------|----------|
-| **macOS** (Apple Silicon) | ✅ Available | [📦 Download DMG](https://github.com/Chloriiin/Protrace/releases) |
-| **macOS** (Intel) | 🚧 Available on request | Check [releases page](https://github.com/Chloriiin/Protrace/releases) |
-| **Windows** (64-bit) | 🚧 Coming Soon | Check [releases page](https://github.com/Chloriiin/Protrace/releases) |
+**Current Status**: Initial release is being prepared. Download options will be available soon!
 
-> **Note**: Currently optimized for Apple Silicon Macs. Intel Mac and Windows builds available on request.
+| Platform | Status | How to Get |
+|----------|--------|------------|
+| **macOS** (Apple Silicon) | ✅ **Ready** | [Contact for early access](#-support) |
+| **macOS** (Intel) | � **On request** | [Contact for build](#-support) |
+| **Windows** (64-bit) | 🚧 **In development** | Coming soon |
 
-[🔗 **View All Releases**](https://github.com/Chloriiin/Protrace/releases) | [📚 **Documentation**](#-quick-start-for-end-users)
+> **Note**: This is a new project! The first official release is being prepared. If you need immediate access, please create an issue in the [Issues](../../issues) section or follow the development setup below.
+
+### 📦 For Developers
+Want to try it now? Follow the [🛠️ Development Setup](#-development-setup-for-developers) instructions below to build from source.
+
+[🔗 **Watch Releases**](https://github.com/Chloriiin/Protrace/releases) | [📋 **Report Issues**](https://github.com/Chloriiin/Protrace/issues) | [📚 **Documentation**](#-quick-start-for-end-users)
 
 </div> Data Visualization Desktop App
 
@@ -58,11 +63,18 @@ Perfect for researchers working with:
 
 ## 🚀 Quick Start (For End Users)
 
-### Download and Install
-1. **Download**: Visit the [📥 Download section](#-download) above or go to [GitHub Releases](https://github.com/Chloriiin/Protrace/releases)
-2. **macOS**: Download the latest DMG file, open it, and drag Protrace to your Applications folder
-3. **Windows**: Windows builds coming soon - check the releases page for updates
-4. Launch Protrace from your Applications folder
+### Getting the App
+**Option 1: Wait for Official Release** (Recommended for most users)
+- ⭐ **Star this repository** to get notified when the first release is available
+- 📧 **Watch releases** to be notified immediately when binaries are ready
+
+**Option 2: Request Early Access**
+- Create an [Issue](../../issues) requesting access for your platform (macOS Intel/Apple Silicon)
+- We'll provide you with a download link for testing
+
+**Option 3: Build from Source** (For developers)
+- Follow the [🛠️ Development Setup](#-development-setup-for-developers) section below
+- Requires Node.js, Rust, and Python development environment
 
 ### Using the App
 1. **Upload Data**: Click "Choose File" and select your Excel file (header should be on row 31)
@@ -287,6 +299,34 @@ println!("Debug: Attempting to start backend at: {:?}", backend_path);
 
 ## 📦 Distribution
 
+### Creating Releases (For Maintainers)
+
+To create a new release with binaries:
+
+1. **Build the application:**
+   ```bash
+   ./build-app.sh
+   ```
+
+2. **Create and push a git tag:**
+   ```bash
+   git tag -a v0.1.0 -m "Release version 0.1.0 - Initial release with fixed export functionality"
+   git push origin v0.1.0
+   ```
+
+3. **Create GitHub Release:**
+   - Go to [GitHub Releases](../../releases)
+   - Click "Create a new release"
+   - Select the tag you just created
+   - Add release notes describing new features and fixes
+   - Upload the built binaries:
+     - `src-tauri/target/release/bundle/dmg/protrace_0.1.0_aarch64.dmg` (macOS Apple Silicon)
+     - `src-tauri/target/release/bundle/macos/protrace.app` (macOS App Bundle)
+
+4. **Update README download links:**
+   Once the release is created, the download links will automatically work:
+   - `https://github.com/Chloriiin/Protrace/releases/latest/download/protrace_0.1.0_aarch64.dmg`
+
 ### Code Signing (macOS)
 For distribution outside the Mac App Store:
 ```bash
@@ -343,9 +383,12 @@ If you encounter any issues or need help:
 
 ## 🔮 Roadmap
 
-- [x] macOS desktop application (Universal build)
-- [x] Export functionality fix for desktop environment
-- [ ] **Windows build automation and release**
+- [x] macOS desktop application (Apple Silicon build)
+- [x] Export functionality fix for desktop environment (plots + sample configs)
+- [x] Updated window title with version branding
+- [ ] **🎯 First official release (v0.1.0)**
+- [ ] Windows build automation and release
+- [ ] Intel Mac builds for older hardware
 - [ ] GitHub Actions for automated builds and releases
 - [ ] Auto-updater integration
 - [ ] Additional plot types and customization options
