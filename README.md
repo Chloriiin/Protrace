@@ -2,6 +2,24 @@
 
 **Protrace** is a powerful desktop application for visualizing and analyzing biology experiment data. Built with Next.js, Python, and Tauri, it provides an intuitive interface for processing Excel data files and generating publication-ready plots completely offline.
 
+## 📥 Download
+
+<div align="center">
+
+### 🚀 Ready to use? Download the latest version!
+
+| Platform | Download Link | File Size |
+|----------|---------------|-----------|
+| **macOS** (Apple Silicon) | [📦 Download DMG](https://github.com/Chloriiin/Protrace/releases/latest/download/protrace_0.1.0_aarch64.dmg) | ~100 MB |
+| **macOS** (Intel) | [📦 Download DMG](https://github.com/Chloriiin/Protrace/releases/latest/download/protrace_0.1.0_x64.dmg) | ~100 MB |
+| **Windows** (64-bit) | [📦 Download Installer](https://github.com/Chloriiin/Protrace/releases/latest/download/protrace_0.1.0_x64-setup.exe) | ~100 MB |
+
+[🔗 **View All Releases**](https://github.com/Chloriiin/Protrace/releases) | [📋 **Release Notes**](https://github.com/Chloriiin/Protrace/releases/latest)
+
+</div>
+
+---
+
 ## 🎯 Features
 
 - **Offline Functionality**: No internet connection required - runs completely standalone
@@ -24,9 +42,9 @@ Perfect for researchers working with:
 ## 🚀 Quick Start (For End Users)
 
 ### Download and Install
-1. Download the latest release from the [Releases](../../releases) page
-2. **macOS**: Download `protrace_x.x.x_aarch64.dmg`, open it, and drag Protrace to Applications
-3. **Windows**: Download `protrace_x.x.x_x64-setup.exe` and run the installer
+1. **Easy Download**: Use the [📥 Download section](#-download) above to get the latest version for your platform
+2. **macOS**: Open the downloaded DMG file and drag Protrace to your Applications folder
+3. **Windows**: Run the downloaded installer and follow the setup wizard
 4. Launch Protrace from your Applications folder or Start menu
 
 ### Using the App

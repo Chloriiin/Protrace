@@ -1,9 +1,0 @@
-packages = [
-  "pandas",
-  "numpy", 
-  "matplotlib",
-  "openpyxl"
-]
-
-[files]
-"./python/" = "./" 
