@@ -1,0 +1,23 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    font-family: Inter, system-ui, sans-serif;
+  }
+}
+
+@layer components {
+  .upload-area {
+    @apply border-2 border-dashed border-gray-300 rounded-lg p-8 text-center hover:border-gray-400 transition-colors;
+  }
+  
+  .upload-area.dragover {
+    @apply border-blue-500 bg-blue-50;
+  }
+  
+  .btn-primary {
+    @apply bg-white border border-gray-300 rounded-lg px-6 py-2 text-gray-700 hover:bg-gray-50 transition-colors;
+  }
+} 

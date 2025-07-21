@@ -1,0 +1,32 @@
+{
+  "version": "1.0.0",
+  "exportDate": "2025-01-02T10:30:45.123Z",
+  "plateType": "96-well",
+  "applicationName": "Protrace",
+  "samples": [
+    {
+      "id": "1672657845123abc456",
+      "sampleName": "DMSO",
+      "backgroundWell": "B2",
+      "sampleWells": []
+    },
+    {
+      "id": "1672657845123def789",
+      "sampleName": "Sample_A",
+      "backgroundWell": "B2",
+      "sampleWells": ["B3", "B4"]
+    },
+    {
+      "id": "1672657845123ghi012",
+      "sampleName": "Sample_B",
+      "backgroundWell": "C2",
+      "sampleWells": ["C3", "C4", "C5"]
+    },
+    {
+      "id": "1672657845123jkl345",
+      "sampleName": "No_Background_Sample",
+      "backgroundWell": null,
+      "sampleWells": ["D3", "D4"]
+    }
+  ]
+} 
