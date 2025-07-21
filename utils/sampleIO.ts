@@ -17,7 +17,7 @@ export interface ValidationResult {
 /**
  * Export samples to a downloadable JSON file
  */
-export const exportSamples = (samples: Sample[]): void => {
+export const exportSamples = async (samples: Sample[]): Promise<void> => {
   const exportData: SampleExportData = {
     version: '1.0.0',
     exportDate: new Date().toISOString(),
@@ -27,21 +27,48 @@ export const exportSamples = (samples: Sample[]): void => {
   };
 
   const jsonString = JSON.stringify(exportData, null, 2);
-  const blob = new Blob([jsonString], { type: 'application/json' });
-  const url = URL.createObjectURL(blob);
-  
   const timestamp = new Date().toISOString().slice(0, 19).replace(/[:.]/g, '-');
   const filename = `protrace-samples-${timestamp}.json`;
   
-  const link = document.createElement('a');
-  link.href = url;
-  link.download = filename;
-  document.body.appendChild(link);
-  link.click();
-  document.body.removeChild(link);
-  
-  // Clean up the object URL
-  URL.revokeObjectURL(url);
+  // Check if we're running in Tauri
+  if (typeof window !== 'undefined' && (window as any).__TAURI__) {
+    try {
+      // Use Tauri file system APIs
+      const { save } = await import('@tauri-apps/api/dialog');
+      const { writeTextFile } = await import('@tauri-apps/api/fs');
+      
+      // Show save dialog
+      const savePath = await save({
+        defaultPath: filename,
+        filters: [{
+          name: 'JSON Files',
+          extensions: ['json']
+        }]
+      });
+      
+      if (savePath) {
+        await writeTextFile(savePath, jsonString);
+        alert(`Sample configuration successfully saved to: ${savePath}`);
+      }
+    } catch (error) {
+      console.error('Error saving sample configuration:', error);
+      alert('Failed to save sample configuration. Please try again.');
+    }
+  } else {
+    // Fallback for web browsers (development mode)
+    const blob = new Blob([jsonString], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = filename;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    
+    // Clean up the object URL
+    URL.revokeObjectURL(url);
+  }
 };
 
 /**

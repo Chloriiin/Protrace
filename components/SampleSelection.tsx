@@ -132,14 +132,14 @@ export default function SampleSelection({ onContinue }: SampleSelectionProps) {
     }
   }, []);
 
-  const handleExportSamples = useCallback(() => {
+  const handleExportSamples = useCallback(async () => {
     if (samples.length === 0) {
       alert('No samples to export. Please add some samples first.');
       return;
     }
     
     try {
-      exportSamples(samples);
+      await exportSamples(samples);
     } catch (error) {
       alert('Failed to export samples. Please try again.');
       console.error('Export error:', error);
